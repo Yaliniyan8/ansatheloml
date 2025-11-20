@@ -3,1452 +3,250 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CBT Persiapan Blok 1.1 - Fisiologi Sel (51 Soal)</title>
-
-    <!-- Google Fonts: Poppins untuk UI, Times New Roman untuk konten -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
-    
-    <!-- Font Awesome for Icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-
+    <title>🩺 Kuis Interaktif Sirkulasi & Respirasi 🌬️</title>
     <style>
-        :root {
-            /* Tema Biru Medis Profesional */
-            --brand-glow: #87CEEB; /* Sky Blue */
-            --accent-glow: #4682B4; /* Steel Blue */
-            --bg-start: #f0f4f8; /* Light Grayish Blue */
-            --bg-end: #d9e2ec;
-            --glass-bg: rgba(255, 255, 255, 0.85);
-            --glass-border: rgba(0, 0, 0, 0.1);
-            --text-primary: #1e3a5f; /* Dark Blue */
-            --text-secondary: #5a7a9d; /* Grayish Blue */
-            --shadow-glow: 0 8px 32px rgba(0, 0, 0, 0.1);
-            --answered-grad-start: #3a5f8a;
-            --answered-grad-end: #5a7a9d;
-            --correct-glow: #2E8B57; /* SeaGreen */
-            --correct-dark: #3CB371; /* MediumSeaGreen */
-            --incorrect-glow: #DC143C; /* Crimson */
-            --incorrect-dark: #B22222; /* FireBrick */
-            --border-radius: 12px;
-        }
-
-        *, *::before, *::after {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-
-        html {
-            height: 100%;
-        }
-
         body {
-            font-family: 'Poppins', sans-serif;
-            color: var(--text-primary);
-            min-height: 100%;
-            background-color: var(--bg-start);
-            background-image: linear-gradient(160deg, var(--bg-start) 0%, var(--bg-end) 100%);
-            background-attachment: fixed;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 16px;
-            overflow-x: hidden;
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f4f4f9;
+            color: #333;
         }
-        
-        #app-container, #welcome-screen, #hasil-container, .pilihan-text, .soal-text, .pembahasan, .kunci-item p {
-            font-family: 'Times New Roman', Times, serif;
-        }
-        
-        h1, h2, h3, h4, .primary-action-btn, .nav-btn, #progress-text {
-             font-family: 'Poppins', sans-serif;
-        }
-
-        #welcome-screen {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            background: var(--glass-bg);
-            border: 1px solid var(--glass-border);
-            border-radius: var(--border-radius);
-            padding: 50px 40px;
-            max-width: 650px;
-            width: 100%;
-            box-shadow: var(--shadow-glow);
-            transition: opacity 0.5s ease-out, transform 0.5s ease-out;
-        }
-
-        #welcome-screen.hidden {
-            opacity: 0;
-            transform: scale(0.95);
-            pointer-events: none;
-        }
-
-        #welcome-screen .fa-dna {
-            font-size: 5rem;
-            margin-bottom: 20px;
-            background: -webkit-linear-gradient(45deg, var(--brand-glow), var(--accent-glow));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-        
-        @keyframes animated-gradient {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
-        }
-
-        .primary-action-btn {
-            font-size: 1.1rem;
-            font-weight: 600;
-            padding: 14px 28px;
-            border: none;
-            border-radius: 8px;
-            color: #fff;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-            text-decoration: none;
-            background: linear-gradient(90deg, var(--accent-glow), var(--brand-glow), var(--accent-glow));
-            background-size: 250% auto;
-            animation: animated-gradient 4s linear infinite;
-        }
-
-        .primary-action-btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 4px 20px rgba(70, 130, 180, 0.4);
-        }
-
-        #welcome-screen h1 {
-            font-size: 2.2rem;
-            font-weight: 700;
-            margin-bottom: 15px;
-            color: var(--text-primary);
-        }
-
-        #welcome-screen p {
-            font-size: 1.25rem;
-            color: var(--text-secondary);
-            max-width: 550px;
-            line-height: 1.7;
-            margin-bottom: 30px;
-        }
-
-        #app-container {
-            width: 100%;
-            max-width: 1400px;
-            min-height: 100%;
-            height: auto;
-            display: none;
-            flex-direction: column;
-            opacity: 0;
-            transition: opacity 0.5s ease-in;
-        }
-        
-        #app-container.visible {
-            display: flex;
-            opacity: 1;
-        }
-
-        #main-header {
-            padding: 12px 24px;
-            background: var(--glass-bg);
-            border-bottom: 1px solid var(--glass-border);
-            border-radius: var(--border-radius) var(--border-radius) 0 0;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-shrink: 0;
-        }
-
-        #header-title h1 {
-            font-size: 1.2rem;
-            font-weight: 600;
-            color: var(--accent-glow);
-        }
-
-        #toggle-panel-btn {
-            background: rgba(0,0,0,0.03);
-            border: 1px solid var(--glass-border);
-            color: var(--text-secondary);
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            font-size: 1rem;
-        }
-        
-        #toggle-panel-btn:hover {
-            color: white;
-            background: var(--accent-glow);
-        }
-
-        #quiz-section {
-            display: flex;
-            gap: 16px;
-            padding: 16px;
-            flex-grow: 1;
-        }
-
-        .quiz-panel {
-            background: var(--glass-bg);
-            border: 1px solid var(--glass-border);
-            box-shadow: var(--shadow-glow);
-            border-radius: var(--border-radius);
-            display: flex;
-            flex-direction: column;
-            transition: all 0.4s ease;
-        }
-
-        #quiz-content {
-            flex: 3;
-            min-width: 0;
-            display: flex;
-            flex-direction: column;
-        }
-
-        #soal-header {
-            padding: 16px 24px;
-            border-bottom: 1px solid var(--glass-border);
-            font-weight: 600;
-            color: var(--text-primary);
-        }
-        
-        #progress-bar-container {
-            width: 100%;
-            height: 10px;
-            background-color: rgba(0,0,0,0.1);
-            border-radius: 5px;
-            overflow: hidden;
-            margin-top: 8px;
-        }
-
-        #progress-bar-fill {
-            width: 0%;
-            height: 100%;
-            background: linear-gradient(90deg, var(--brand-glow), var(--accent-glow));
-            border-radius: 5px;
-            transition: width 0.4s ease;
-        }
-        
-        #soal-display {
-            padding: 24px 32px;
-            flex-grow: 1;
-            overflow-y: auto;
-            line-height: 1.8;
-            font-size: 1.25rem;
-            transition: opacity 0.2s ease-in-out;
-        }
-        
-        .pilihan-container {
-            display: flex;
-            flex-direction: column;
-            gap: 1rem;
-            margin-top: 2rem;
-        }
-
-        .pilihan-btn {
-            display: flex;
-            align-items: flex-start;
-            padding: 1em 1.2em;
-            border: 2px solid var(--glass-border);
-            border-radius: 12px;
-            cursor: pointer;
-            transition: all 0.2s ease-in-out;
-            background: transparent;
-            text-align: left;
-            width: 100%;
-            color: var(--text-primary);
-            font-size: 1.15rem;
-            line-height: 1.6;
-        }
-
-        .pilihan-btn:hover {
-            border-color: var(--accent-glow);
-            background-color: rgba(70, 130, 180, 0.05);
-        }
-
-        .pilihan-btn.selected {
-            border-color: var(--accent-glow);
-            background-color: rgba(70, 130, 180, 0.1);
-            box-shadow: 0 0 10px rgba(70, 130, 180, 0.2);
-        }
-
-        #navigasi-utama {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 16px 32px;
-            border-top: 1px solid var(--glass-border);
-            flex-shrink: 0;
-            background: rgba(0,0,0,0.02);
-        }
-        
-        .nav-btn {
-            padding: 10px 20px;
-            font-size: 0.95rem;
-            font-weight: 600;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            border: 1px solid var(--glass-border);
-            color: var(--text-primary);
-        }
-
-        #btn-prev, #btn-next {
-            background-color: #fff;
-        }
-
-        #btn-prev:hover:not(:disabled), #btn-next:hover:not(:disabled) {
-            background: var(--accent-glow);
-            color: #fff;
-            transform: translateY(-2px);
-        }
-
-        .nav-btn:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-            transform: none;
-            background: #e9ecef;
-            color: #6c757d;
-        }
-
-        #panel-kanan {
-            flex-basis: 320px;
-            flex-shrink: 0;
-            padding: 24px;
-            display: flex;
-            flex-direction: column;
-        }
-
-        #panel-kanan h4 {
-            margin-top: 0;
-            margin-bottom: 20px;
-            text-align: center;
-            font-size: 1.2rem;
-            font-weight: 600;
-            flex-shrink: 0;
-        }
-
-        #navigasi-grid-wrapper {
-            flex-grow: 1;
-            overflow-y: auto;
-        }
-
-        #navigasi-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(45px, 1fr));
-            gap: 10px;
-        }
-        
-        .nav-grid-btn {
-            width: 100%;
-            aspect-ratio: 1 / 1;
-            border: 1px solid var(--glass-border);
-            background-color: transparent;
-            border-radius: 8px;
-            cursor: pointer;
-            font-weight: 600;
-            transition: all 0.2s ease;
-            color: var(--text-secondary);
-            font-family: 'Poppins', sans-serif;
-            font-size: 1rem;
-        }
-
-        .nav-grid-btn:hover {
-            transform: scale(1.1);
-            border-color: var(--accent-glow);
-        }
-
-        .nav-grid-btn.answered {
-            background-image: linear-gradient(145deg, var(--answered-grad-start), var(--answered-grad-end));
-            border-color: transparent;
-            color: #fff;
-            font-weight: 700;
-        }
-        
-        .nav-grid-btn.active {
-            transform: scale(1.1);
-            box-shadow: 0 0 15px var(--accent-glow);
-            border-color: var(--accent-glow);
-            color: var(--text-primary);
-        }
-        
-        #btn-selesai { margin-top: 20px; width:100%; }
-
-        #app-container.panel-closed #panel-kanan {
-            flex-basis: 0;
-            padding: 0;
-            margin-left: -16px;
-            opacity: 0;
-            pointer-events: none;
-        }
-        
-        #hasil-container {
-            display: none;
-            opacity: 0;
-            flex-direction: column;
-            text-align: center;
-            width: 100%;
+        .container {
             max-width: 900px;
-            margin: 0 auto;
-            transition: opacity 0.5s ease-in;
-            padding: 20px;
-        }
-        
-        #hasil-container.visible {
-            display: flex;
-            opacity: 1;
-        }
-
-        .hasil-wrapper {
-            background: var(--glass-bg);
-            border: 1px solid var(--glass-border);
-            border-radius: var(--border-radius);
-            padding: 40px;
-            width: 100%;
-        }
-
-        #hasil-container h2 {
-            font-size: 2.5rem;
-            color: var(--text-primary);
-            margin-bottom: 20px;
-        }
-
-        #skor-final {
-            font-size: 5rem;
-            font-weight: 800;
-            margin-bottom: 10px;
-            font-family: 'Poppins', sans-serif;
-            background: linear-gradient(125deg, var(--accent-glow), var(--brand-glow), var(--accent-glow));
-            background-size: 400% 400%;
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-            animation: animated-gradient 3s linear infinite;
-        }
-
-        .statistik-container {
-            display: flex;
-            justify-content: center;
-            margin-bottom: 30px;
-        }
-
-        #statistik-jawaban {
-            display: flex;
-            gap: 30px;
-            font-size: 1.4rem;
-            font-family: 'Poppins', sans-serif;
-        }
-        
-        #statistik-jawaban p {
-            font-weight: 500;
-        }
-
-        #statistik-jawaban .benar { 
-            color: var(--correct-glow);
-        }
-        #statistik-jawaban .salah {
-            color: var(--incorrect-glow);
-        }
-
-        .btn-ulangi-container { margin-top: 40px; text-align: center; }
-
-        #kunci-jawaban-wrapper {
-            text-align: left;
-            margin-top: 2rem;
-            width: 100%;
-        }
-
-        .kunci-item {
-            margin-bottom: 25px;
-            padding: 20px;
-            border-radius: 12px;
-            border-left: 6px solid;
-            background: #f8f9fa;
-        }
-        .kunci-item.benar { border-left-color: var(--correct-glow); }
-        .kunci-item.salah { border-left-color: var(--incorrect-glow); }
-        
-        .kunci-item-soal {
-            font-weight: bold;
-            font-size: 1.15rem;
-            line-height: 1.7;
-            margin-bottom: 15px;
-        }
-
-        .pembahasan {
-            background-color: #e9ecef;
-            padding: 15px 20px;
-            border-radius: 8px;
-            margin-top: 15px;
-            font-size: 1.1rem;
-            line-height: 1.7;
-            border: 1px solid var(--glass-border);
-        }
-        
-        .modal-overlay {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0, 0, 0, 0.5);
-            backdrop-filter: blur(5px); -webkit-backdrop-filter: blur(5px);
-            display: flex; justify-content: center; align-items: center;
-            z-index: 1000; opacity: 0; visibility: hidden;
-            transition: opacity 0.3s ease, visibility 0.3s ease;
-        }
-
-        .modal-overlay.active { opacity: 1; visibility: visible; }
-        
-        .modal-content {
+            margin: auto;
             background: #fff;
-            padding: 30px 40px; border-radius: var(--border-radius);
-            text-align: center; max-width: 480px; width: 90%;
-            transform: scale(0.9); opacity: 0;
-            transition: all 0.3s cubic-bezier(0.18, 0.89, 0.32, 1.28);
-            box-shadow: 0 10px 40px rgba(0,0,0,0.15);
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }
-
-        .modal-overlay.active .modal-content { transform: scale(1); opacity: 1; }
-        .modal-message { margin-bottom: 25px; font-size: 1.25rem; font-weight: 500; line-height: 1.6; color: var(--text-primary); }
-        .modal-buttons { display: flex; justify-content: center; gap: 15px; }
-        
-        .modal-btn.confirm {
-             background: var(--incorrect-dark);
-             color: white;
-             border-color: transparent;
+        h1 {
+            text-align: center;
+            color: #007bff;
         }
-        .modal-btn.confirm:hover {
-            background: var(--incorrect-glow);
+        .question-box {
+            margin-bottom: 20px;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            background-color: #e9ecef;
         }
-
-
-        @media (max-width: 1024px) {
-            body { padding: 0; align-items: flex-start; }
-            #app-container, #welcome-screen { height: auto; min-height: 100vh; border-radius: 0; }
-            #main-header { border-radius: 0; }
-            #quiz-section { flex-direction: column; padding: 16px; gap: 16px; }
-            #panel-kanan { order: -1; }
-            #app-container.panel-closed #panel-kanan { display: none; }
-            .hasil-wrapper { padding: 20px; }
+        .question-text {
+            font-weight: bold;
+            margin-bottom: 10px;
+            line-height: 1.5;
         }
-        
-        @media (max-width: 768px) {
-            #soal-display { padding: 16px; font-size: 1.1rem;}
-            .pilihan-btn { font-size: 1rem; }
-            #navigasi-utama { 
-                padding: 12px;
-                gap: 8px;
-            }
-            .nav-btn {
-                padding: 10px 14px;
-                font-size: 0.9rem;
-                gap: 6px;
-            }
-            #hasil-container h2 { font-size: 2rem; }
-            #skor-final { font-size: 4rem; }
-            #statistik-jawaban { font-size: 1.2rem; gap: 20px; }
+        .option-label {
+            display: block;
+            margin: 8px 0;
+            cursor: pointer;
+            padding: 5px;
+            border-radius: 4px;
+            transition: background-color 0.3s;
+        }
+        .option-label:hover {
+            background-color: #d6e0f0;
+        }
+        .result {
+            margin-top: 20px;
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+            font-size: 1.2em;
+            font-weight: bold;
+            background-color: #28a745;
+            color: white;
+            display: none;
+        }
+        .submit-btn {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            margin-top: 20px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 1.1em;
+            transition: background-color 0.3s;
+        }
+        .submit-btn:hover {
+            background-color: #0056b3;
+        }
+        .explanation {
+            margin-top: 5px;
+            font-size: 0.9em;
+            padding: 5px 0;
+            color: #dc3545; /* Warna untuk jawaban salah/kunci */
+            display: none;
         }
     </style>
 </head>
 <body>
 
-<div id="welcome-screen">
-    <i class="fa-solid fa-dna"></i>
-    <h1>Ujian CBT Blok 1.1</h1>
-    <p>Selamat datang di platform simulasi Computer-Based Test (CBT) untuk Blok 1.1. Ujian ini terdiri dari 51 soal pilihan ganda yang disusun berdasarkan materi Fisiologi Sel. Klik tombol di bawah untuk memulai.</p>
-    <button id="start-quiz-btn" class="primary-action-btn">
-        <i class="fas fa-play"></i> Mulai Ujian
-    </button>
-</div>
-
-<div id="app-container">
-    <header id="main-header">
-        <div id="header-title">
-            <h1>Blok 1.1: Fisiologi Sel</h1>
-        </div>
-        <button id="toggle-panel-btn" title="Tampilkan/Sembunyikan Panel Navigasi">
-            <i class="fas fa-list-ol"></i>
-        </button>
-    </header>
-
-    <main id="quiz-section">
-        <div id="quiz-content" class="quiz-panel">
-            <div id="soal-header">
-                <div id="progress-container">
-                    <span id="progress-text">Soal 1 dari 51</span>
-                    <div id="progress-bar-container">
-                        <div id="progress-bar-fill"></div>
-                    </div>
-                </div>
-            </div>
-            <div id="soal-display">
-                <!-- Konten soal akan dimuat di sini oleh JavaScript -->
-            </div>
-            <div id="navigasi-utama">
-                <button id="btn-prev" class="nav-btn" title="Soal Sebelumnya">
-                    <i class="fas fa-arrow-left"></i> Sebelumnya
-                </button>
-                <button id="btn-next" class="nav-btn" title="Soal Selanjutnya">
-                    Selanjutnya <i class="fas fa-arrow-right"></i>
-                </button>
-            </div>
-        </div>
-
-        <aside id="panel-kanan" class="quiz-panel">
-            <h4>Navigasi Soal</h4>
-            <div id="navigasi-grid-wrapper">
-                <div id="navigasi-grid"></div>
-            </div>
-            <button id="btn-selesai" class="primary-action-btn" title="Selesaikan Ujian">
-                <i class="fas fa-flag-checkered"></i> Selesaikan Ujian
-            </button>
-        </aside>
-    </main>
+<div class="container">
+    <h1>🩺 Kuis Sirkulasi dan Respirasi 🌬️</h1>
+    <p>Pilih salah satu jawaban (A, B, C, D, atau E) untuk setiap pertanyaan. Setelah selesai, klik tombol **"Cek Hasil Kuis"**.</p>
+    <hr>
     
-    <div id="hasil-container">
-        <!-- Hasil akan dimuat di sini oleh JavaScript -->
-    </div>
+    <form id="quizForm">
+        </form>
+
+    <button class="submit-btn" onclick="checkResults()">Cek Hasil Kuis</button>
+
+    <div id="results" class="result"></div>
 </div>
 
 <script>
-document.addEventListener('DOMContentLoaded', () => {
-
-    const welcomeScreen = document.getElementById('welcome-screen');
-    const startQuizBtn = document.getElementById('start-quiz-btn');
-    const appContainer = document.getElementById('app-container');
-    
-    const bankSoal = [
-        {
-            soal: "Manakah pernyataan yang paling tepat mendefinisikan sel sebagai unit dasar kehidupan?",
-            pilihan: {
-                A: "Unit struktural dan fungsional terkecil yang menjadi dasar kehidupan.",
-                B: "Kumpulan organ yang bekerja sama untuk fungsi tertentu.",
-                C: "Molekul kompleks yang hanya ditemukan pada organisme multiseluler.",
-                D: "Cairan yang mengisi seluruh tubuh organisme.",
-                E: "Bagian dari jaringan yang tidak dapat berfungsi secara autonom."
-            },
-            kunci: 'A',
-            pembahasan: "Berdasarkan materi, sel adalah unit struktural dan fungsional terkecil yang menjadi dasar kehidupan, di mana semua fungsi kehidupan diatur dan berlangsung di dalamnya."
-        },
-        {
-            soal: "Organisme seperti amoeba dan bakteri diklasifikasikan sebagai organisme uniseluler. Apa artinya?",
-            pilihan: {
-                A: "Organisme yang terdiri dari satu sel tunggal.",
-                B: "Organisme yang terdiri dari banyak sel tanpa membran inti.",
-                C: "Organisme yang tidak memiliki sel.",
-                D: "Organisme yang selnya tidak dapat membelah.",
-                E: "Organisme yang hanya hidup di air."
-            },
-            kunci: 'A',
-            pembahasan: "Organisme uniseluler atau bersel satu/tunggal adalah makhluk hidup yang hanya terdiri dari satu sel, contohnya adalah amoeba dan bakteri."
-        },
-        {
-            soal: "Perbedaan paling fundamental antara sel prokariotik dan sel eukariotik adalah...",
-            pilihan: {
-                A: "Sel prokariotik tidak memiliki membran inti, sedangkan sel eukariotik memilikinya.",
-                B: "Sel prokariotik memiliki mitokondria, sedangkan sel eukariotik tidak.",
-                C: "Sel prokariotik membelah secara mitosis, sedangkan sel eukariotik secara amitosis.",
-                D: "DNA sel eukariotik telanjang, sedangkan DNA sel prokariotik terikat protein.",
-                E: "Sel eukariotik tidak memiliki ribosom."
-            },
-            kunci: 'A',
-            pembahasan: "Materi presentasi dengan jelas menyatakan bahwa sel prokariotik TIDAK MEMILIKI MEMBRAN INTI, sementara sel eukariotik MEMILIKI MEMBRAN INTI."
-        },
-        {
-            soal: "Manakah dari organel berikut yang TIDAK ditemukan pada sel prokariotik?",
-            pilihan: {
-                A: "Mitokondria",
-                B: "Ribosom",
-                C: "Membran plasma",
-                D: "Sitoplasma",
-                E: "Materi genetik (DNA)"
-            },
-            kunci: 'A',
-            pembahasan: "Berdasarkan tabel perbandingan, sel prokariotik tidak memiliki mitokondria, membran nukleus, badan golgi, dan beberapa organel kompleks lainnya yang ada pada sel eukariotik."
-        },
-        {
-            soal: "Bagaimana bentuk dan sifat kromosom pada sel prokariotik?",
-            pilihan: {
-                A: "Tunggal dan DNA-nya telanjang (tanpa protein histon).",
-                B: "Ganda dan DNA-nya terikat dengan protein histon.",
-                C: "Tunggal dan terbungkus dalam membran nukleus.",
-                D: "Ganda dan terletak di dalam mitokondria.",
-                E: "Tidak memiliki kromosom, hanya RNA."
-            },
-            kunci: 'A',
-            pembahasan: "Tabel perbandingan pada presentasi menunjukkan bahwa kromosom sel prokariotik bersifat tunggal (+) dan DNA-nya telanjang (+), serta tidak memiliki histon (-)."
-        },
-        {
-            soal: "Metode pembelahan sel yang khas terjadi pada sel prokariotik adalah...",
-            pilihan: {
-                A: "Amitosis",
-                B: "Mitosis",
-                C: "Meiosis",
-                D: "Fragmentasi",
-                E: "Apoptosis"
-            },
-            kunci: 'A',
-            pembahasan: "Pada baris 'Pembelahan' di tabel perbandingan, sel prokariotik melakukan pembelahan secara amitosis, sedangkan sel eukariotik secara mitosis/meiosis."
-        },
-        {
-            soal: "Organel yang berfungsi sebagai pusat kendali metabolisme sel dan menyimpan informasi genetika berupa DNA adalah...",
-            pilihan: {
-                A: "Nukleus",
-                B: "Mitokondria",
-                C: "Ribosom",
-                D: "Lisosom",
-                E: "Membran plasma"
-            },
-            kunci: 'A',
-            pembahasan: "Presentasi menyebutkan tiga fungsi utama nukleus: mengendalikan metabolisme sel, menyimpan informasi genetika (DNA), dan sebagai tempat penggandaan serta transkripsi DNA."
-        },
-        {
-            soal: "Struktur terluar sel yang bersifat selektif permeabel dan berfungsi mengontrol pertukaran zat antara cairan intraseluler (CIS) dan ekstraseluler (CES) adalah...",
-            pilihan: {
-                A: "Membran plasma",
-                B: "Dinding sel",
-                C: "Membran nukleus",
-                D: "Sitoplasma",
-                E: "Retikulum endoplasma"
-            },
-            kunci: 'A',
-            pembahasan: "Membran plasma dijelaskan sebagai struktur terluar yang membungkus sel, bersifat selektif, dan mengontrol pertukaran elektrolit serta zat yang dibutuhkan oleh sel."
-        },
-        {
-            soal: "Komponen utama yang membentuk struktur 'phospholipid bilayer' pada membran plasma adalah...",
-            pilihan: {
-                A: "Fosfolipid, protein integral & perifer, kolesterol, dan glikoprotein.",
-                B: "Hanya protein dan karbohidrat.",
-                C: "Hanya asam nukleat dan air.",
-                D: "Lapisan tunggal fosfolipid dengan protein di permukaan.",
-                E: "Air dan ion-ion mineral."
-            },
-            kunci: 'A',
-            pembahasan: "Diagram membran plasma menunjukkan komponen-komponen utamanya adalah Phospholipid bilayer, Integral proteins, Peripheral protein, Cholesterol, Glycoprotein, dan Glycolipid."
-        },
-        {
-            soal: "Cairan sel yang mirip jeli (koloid) dan menjadi tempat berlangsungnya metabolisme sel serta lokasi berbagai organel adalah...",
-            pilihan: {
-                A: "Sitoplasma (Sitosol)",
-                B: "Nukleoplasma",
-                C: "Cairan ekstraseluler",
-                D: "Plasma darah",
-                E: "Lisosom"
-            },
-            kunci: 'A',
-            pembahasan: "Sitoplasma, atau disebut juga sitosol, dideskripsikan sebagai cairan sel yang mirip jeli (koloid) dan berfungsi sebagai tempat berlangsungnya metabolisme sel."
-        },
-        {
-            soal: "Retikulum Endoplasma (RE) terbagi menjadi dua jenis. Manakah fungsi utama dari RE Halus (agranuler)?",
-            pilihan: {
-                A: "Sintesis asam lemak, fosfolipid, dan detoksifikasi racun.",
-                B: "Sintesis protein untuk sekresi.",
-                C: "Produksi energi dalam bentuk ATP.",
-                D: "Pencernaan benda asing.",
-                E: "Mengemas dan memodifikasi protein."
-            },
-            kunci: 'A',
-            pembahasan: "RE Halus (agranuler) berfungsi sebagai tempat sintesis asam lemak dan fosfolipid, metabolisme karbohidrat, dan detoksifikasi racun, seperti yang banyak ditemukan pada sel hepar (hati)."
-        },
-        {
-            soal: "Seorang pasien yang sering mengonsumsi obat-obatan atau terpapar pestisida akan menunjukkan peningkatan aktivitas dan jumlah pada organel tertentu di sel hatinya. Organel apakah itu?",
-            pilihan: {
-                A: "Retikulum Endoplasma Halus",
-                B: "Retikulum Endoplasma Kasar",
-                C: "Nukleus",
-                D: "Lisosom",
-                E: "Mitokondria"
-            },
-            kunci: 'A',
-            pembahasan: "Presentasi secara spesifik menyebutkan bahwa RE Halus banyak ditemukan pada sel hepar dan berfungsi dalam detoksifikasi racun, obat-obatan (seperti morfin, fenobarbital), dan karsinogen."
-        },
-        {
-            soal: "Organel yang permukaannya ditempeli ribosom dan berfungsi utama dalam sintesis protein yang akan disekresikan keluar sel adalah...",
-            pilihan: {
-                A: "Retikulum Endoplasma Kasar (granuler)",
-                B: "Retikulum Endoplasma Halus (agranuler)",
-                C: "Aparatus Golgi",
-                D: "Lisosom",
-                E: "Mitokondria"
-            },
-            kunci: 'A',
-            pembahasan: "RE Kasar (granuler) memiliki fungsi utama sintesis protein yang dilakukan oleh ribosom yang menempel padanya. Protein ini kemudian akan disekresikan."
-        },
-        {
-            soal: "Organel yang dihubungkan dengan fungsi ekskresi sel, memodifikasi dan mengemas protein, serta membentuk lisosom adalah...",
-            pilihan: {
-                A: "Aparatus Golgi",
-                B: "Nukleolus",
-                C: "Peroksisom",
-                D: "Sentriol",
-                E: "Ribosom bebas"
-            },
-            kunci: 'A',
-            pembahasan: "Aparatus Golgi dijelaskan memiliki fungsi dalam ekskresi sel (melalui proses eksositosis), pemrosesan protein, dan akan membentuk lisosom."
-        },
-        {
-            soal: "Proses pelepasan protein dari dalam sel, di mana vesikel sekretori dari Aparatus Golgi menyatu dengan membran plasma, disebut...",
-            pilihan: {
-                A: "Eksositosis",
-                B: "Endositosis",
-                C: "Fagositosis",
-                D: "Autophagy",
-                E: "Pinositosis"
-            },
-            kunci: 'A',
-            pembahasan: "Diagram 'Role of the Golgi Apparatus' menunjukkan proses 'Secretion by exocytosis', di mana vesikel sekretori melepaskan isinya (protein) ke luar sel."
-        },
-        {
-            soal: "Organel yang mengandung enzim digestif seperti lisozim dan berfungsi menghancurkan benda asing atau organel sel yang sudah rusak adalah...",
-            pilihan: {
-                A: "Lisosom",
-                B: "Peroksisom",
-                C: "Ribosom",
-                D: "Mitokondria",
-                E: "Sentrosom"
-            },
-            kunci: 'A',
-            pembahasan: "Lisosom mengandung enzim digestif, berfungsi menghancurkan benda asing yang masuk, dan menghancurkan organel sel yang rusak melalui proses autophagy, endositosis, dan fagositosis."
-        },
-        {
-            soal: "Proses di mana lisosom menghancurkan organel sel yang sudah tua atau rusak untuk didaur ulang komponennya disebut...",
-            pilihan: {
-                A: "Autophagy",
-                B: "Fagositosis",
-                C: "Endositosis",
-                D: "Eksositosis",
-                E: "Apoptosis"
-            },
-            kunci: 'A',
-            pembahasan: "Diagram pada slide tentang lisosom secara jelas melabeli proses penghancuran 'Damaged organelle' sebagai Autophagy."
-        },
-        {
-            soal: "Enzim-enzim hidrolitik di dalam lisosom, seperti protease dan nuklease, bekerja paling aktif pada suasana...",
-            pilihan: {
-                A: "Asam (pH 5)",
-                B: "Basa (pH 9)",
-                C: "Netral (pH 7)",
-                D: "Sangat asam (pH 1)",
-                E: "Sangat basa (pH 14)"
-            },
-            kunci: 'A',
-            pembahasan: "Disebutkan bahwa semua enzim-enzim lisosom bekerja aktif dalam suasana asam (pH 5) dan disebut sebagai ACID HYDROLASE."
-        },
-        {
-            soal: "Organel yang mengandung enzim oksidatif dan katalase, berfungsi untuk menetralisir radikal bebas dengan membentuk dan kemudian mengubah H2O2 menjadi H2O dan O2 adalah...",
-            pilihan: {
-                A: "Peroksisom",
-                B: "Lisosom",
-                C: "Mitokondria",
-                D: "Vakuola",
-                E: "Aparatus Golgi"
-            },
-            kunci: 'A',
-            pembahasan: "Peroksisom dijelaskan menghasilkan enzim oksidatif untuk membentuk H2O2 (mempertahankan sel dari radikal bebas) dan enzim katalase untuk mengubah H2O2 menjadi air dan oksigen."
-        },
-        {
-            soal: "Organel yang dikenal sebagai 'power house' sel karena berfungsi sebagai pusat respirasi seluler yang menghasilkan banyak ATP adalah...",
-            pilihan: {
-                A: "Mitokondria",
-                B: "Nukleus",
-                C: "Ribosom",
-                D: "Lisosom",
-                E: "RE Halus"
-            },
-            kunci: 'A',
-            pembahasan: "Mitokondria secara eksplisit disebut sebagai 'power house' sel, yaitu pusat respirasi seluler yang menghasilkan banyak ATP."
-        },
-        {
-            soal: "Struktur berlekuk-lekuk pada lapisan dalam membran mitokondria yang berfungsi memperluas permukaan untuk produksi ATP disebut...",
-            pilihan: {
-                A: "Krista",
-                B: "Matriks",
-                C: "Sitosol",
-                D: "Lumen",
-                E: "Granula"
-            },
-            kunci: 'A',
-            pembahasan: "Presentasi menjelaskan bahwa mitokondria memiliki lapisan dalam yang berlekuk-lekuk yang dinamakan krista."
-        },
-        {
-            soal: "Jaringan filamen protein yang berfungsi menahan dan mempertahankan bentuk sel, menahan organel, dan menjadi komponen penting dalam pembelahan sel adalah...",
-            pilihan: {
-                A: "Sitoskeleton",
-                B: "Membran plasma",
-                C: "Matriks ekstraseluler",
-                D: "Retikulum endoplasma",
-                E: "Dinding sel"
-            },
-            kunci: 'A',
-            pembahasan: "Sitoskeleton memiliki fungsi menahan dan mempertahankan bentuk sel, menahan organel-organel sel tetap di tempatnya, dan merupakan komponen penting dalam pembelahan sel."
-        },
-        {
-            soal: "Manakah dari berikut ini yang BUKAN merupakan tipe filamen protein penyusun sitoskeleton?",
-            pilihan: {
-                A: "Filamen miosin",
-                B: "Mikrotubulus",
-                C: "Mikrofilamen",
-                D: "Filamen intermediet",
-                E: "Semua adalah penyusun sitoskeleton"
-            },
-            kunci: 'A',
-            pembahasan: "Presentasi menyebutkan sitoskeleton terdiri dari tiga tipe protein filamen yaitu: mikrotubulus, mikrofilamen, dan filamen intermediet. Miosin adalah protein motorik yang berinteraksi dengan mikrofilamen (aktin), tetapi bukan tipe filamen utama penyusun sitoskeleton itu sendiri."
-        },
-        {
-            soal: "Organel yang hanya ditemukan pada sel hewan, terletak di dekat inti, dan berfungsi dalam orientasi mitosis adalah...",
-            pilihan: {
-                A: "Sentriol / Sentrosom",
-                B: "Plastida",
-                C: "Vakuola sentral",
-                D: "Dinding sel",
-                E: "Kloroplas"
-            },
-            kunci: 'A',
-            pembahasan: "Sentriol/sentrosom dijelaskan ada pada sel hewan, jarang pada sel tumbuhan, terletak dekat inti, dan salah satu fungsinya adalah orientasi mitosis."
-        },
-        {
-            soal: "Butiran kecil nukleoprotein yang berfungsi sebagai tempat berlangsungnya sintesis protein, baik yang tersebar di sitoplasma maupun yang melekat di RE, adalah...",
-            pilihan: {
-                A: "Ribosom",
-                B: "Lisosom",
-                C: "Peroksisom",
-                D: "Glikogen",
-                E: "Nukleolus"
-            },
-            kunci: 'A',
-            pembahasan: "Ribosom dideskripsikan sebagai tempat berlangsungnya sintesis protein, berbentuk butiran kecil nukleoprotein yang bisa bebas di sitoplasma atau melekat di RE."
-        },
-        {
-            soal: "Molekul apakah yang menjadi komponen penyusun sel paling melimpah, mencapai 70-85% dari total protoplasma?",
-            pilihan: {
-                A: "Air",
-                B: "Protein",
-                C: "Lipid",
-                D: "Karbohidrat",
-                E: "Asam Nukleat"
-            },
-            kunci: 'A',
-            pembahasan: "Slide 'MOLEKUL-MOLEKUL PENYUSUN SEL' menyebutkan 'Air' sebagai salah satu komponen utama. Berdasarkan pengetahuan umum biologi sel yang didukung oleh materi, air adalah komponen paling melimpah."
-        },
-        {
-            soal: "Sebuah sel otot jantung akan memiliki jumlah yang sangat banyak dari organel...",
-            pilihan: {
-                A: "Mitokondria",
-                B: "Lisosom",
-                C: "RE Halus",
-                D: "Sentriol",
-                E: "Peroksisom"
-            },
-            kunci: 'A',
-            pembahasan: "Presentasi menyebutkan bahwa jumlah krista (dan mitokondria) pada sel otot sangat banyak, sesuai dengan kebutuhan energinya yang tinggi."
-        },
-        {
-            soal: "Berdasarkan diagram, protein yang disintesis di RE Kasar akan melewati serangkaian proses. Urutan yang benar setelah keluar dari RE adalah...",
-            pilihan: {
-                A: "Masuk ke vesikel transpor, diproses di Aparatus Golgi, dikemas dalam vesikel sekretori.",
-                B: "Langsung dilepaskan keluar sel melalui membran plasma.",
-                C: "Disimpan di dalam nukleus untuk digunakan nanti.",
-                D: "Dihancurkan oleh lisosom karena dianggap produk gagal.",
-                E: "Digunakan untuk membangun sitoskeleton."
-            },
-            kunci: 'A',
-            pembahasan: "Diagram 'Role of the Golgi Apparatus' menunjukkan protein dari RE Kasar masuk ke vesikel, lalu ke Golgi, dan akhirnya dikemas ke dalam 'Secretory vesicles' untuk eksositosis."
-        },
-        {
-            soal: "Struktur kepala pada molekul fosfolipid di membran plasma memiliki sifat...",
-            pilihan: {
-                A: "Polar dan hidrofilik (suka air)",
-                B: "Nonpolar dan hidrofobik (takut air)",
-                C: "Polar dan hidrofobik",
-                D: "Nonpolar dan hidrofilik",
-                E: "Netral dan tidak berinteraksi dengan air"
-            },
-            kunci: 'A',
-            pembahasan: "Diagram membran plasma melabeli kepala fosfolipid sebagai 'Polar head (hydrophilic)'."
-        },
-        {
-            soal: "Struktur ekor asam lemak pada molekul fosfolipid di membran plasma memiliki sifat...",
-            pilihan: {
-                A: "Nonpolar dan hidrofobik (takut air)",
-                B: "Polar dan hidrofilik (suka air)",
-                C: "Polar dan hidrofobik",
-                D: "Nonpolar dan hidrofilik",
-                E: "Bermuatan positif dan suka air"
-            },
-            kunci: 'A',
-            pembahasan: "Diagram membran plasma melabeli ekor fosfolipid sebagai 'Fatty acid tails (hydrophobic)'."
-        },
-        {
-            soal: "Fungsi dasar sel adalah memperoleh nutrien dan O2 dari lingkungan. Proses ini terutama diatur oleh...",
-            pilihan: {
-                A: "Membran plasma",
-                B: "Nukleus",
-                C: "Mitokondria",
-                D: "Sitoskeleton",
-                E: "Ribosom"
-            },
-            kunci: 'A',
-            pembahasan: "Membran plasma mengontrol pertukaran zat antara sel dengan lingkungannya, sehingga berperan langsung dalam memperoleh nutrien dan O2."
-        },
-        {
-            soal: "Sel eukariotik ditemukan pada organisme berikut, KECUALI...",
-            pilihan: {
-                A: "Bakteri dan Monera",
-                B: "Tumbuhan dan Hewan",
-                C: "Jamur",
-                D: "Protista",
-                E: "Manusia"
-            },
-            kunci: 'A',
-            pembahasan: "Diagram klasifikasi sel menunjukkan bahwa sel eukariotik ditemukan pada tumbuhan, hewan, jamur, dan protista. Bakteri dan Monera diklasifikasikan sebagai prokariotik."
-        },
-        {
-            soal: "Apa yang dimaksud dengan DNA 'telanjang' pada sel prokariotik?",
-            pilihan: {
-                A: "DNA tidak terikat dengan protein histon.",
-                B: "DNA tidak memiliki pasangan basa.",
-                C: "DNA berada di luar sel.",
-                D: "DNA berbentuk linear.",
-                E: "DNA tidak mengandung informasi genetik."
-            },
-            kunci: 'A',
-            pembahasan: "Tabel perbandingan menunjukkan sel prokariotik memiliki DNA telanjang dan tidak memiliki histon, sedangkan eukariotik memiliki DNA dengan protein dan memiliki histon."
-        },
-        {
-            soal: "Kombinasi karbohidrat dan protein pada permukaan membran sel disebut...",
-            pilihan: {
-                A: "Glikoprotein",
-                B: "Glikolipid",
-                C: "Fosfolipid",
-                D: "Lipoprotein",
-                E: "Nukleoprotein"
-            },
-            kunci: 'A',
-            pembahasan: "Diagram membran plasma secara eksplisit melabeli struktur gabungan karbohidrat dan protein sebagai 'Glycoprotein'."
-        },
-        {
-            soal: "Proses masuknya makromolekul yang larut ke dalam sel melalui pembentukan vesikel dari membran plasma disebut...",
-            pilihan: {
-                A: "Endositosis (termasuk pinositosis)",
-                B: "Eksositosis",
-                C: "Fagositosis",
-                D: "Autophagy",
-                E: "Difusi terfasilitasi"
-            },
-            kunci: 'A',
-            pembahasan: "Diagram lisosom menunjukkan masuknya makromolekul melalui 'Receptor-mediated endocytosis'. Endositosis adalah istilah umum untuk proses ini."
-        },
-        {
-            soal: "Organel manakah yang berperan dalam pembentukan benang spindel saat pembelahan sel pada hewan?",
-            pilihan: {
-                A: "Sentriol / Sentrosom",
-                B: "Aparatus Golgi",
-                C: "Nukleolus",
-                D: "Peroksisom",
-                E: "RE Kasar"
-            },
-            kunci: 'A',
-            pembahasan: "Fungsi Sentriol/Sentrosom adalah 'orientasi mitosis', yang melibatkan pembentukan benang spindel untuk pemisahan kromosom."
-        },
-        {
-            soal: "Jika sebuah sel secara aktif memproduksi dan mengeluarkan antibodi (yang merupakan protein), organel manakah yang akan sangat berkembang dan aktif?",
-            pilihan: {
-                A: "RE Kasar dan Aparatus Golgi",
-                B: "RE Halus dan Peroksisom",
-                C: "Mitokondria dan Lisosom",
-                D: "Nukleus dan Sitoskeleton",
-                E: "Sentriol dan Membran Plasma"
-            },
-            kunci: 'A',
-            pembahasan: "Produksi protein untuk sekresi (seperti antibodi oleh sel plasma) sangat bergantung pada RE Kasar untuk sintesis dan Aparatus Golgi untuk pemrosesan dan pengemasan."
-        },
-        {
-            soal: "Enzim lipase di dalam lisosom berfungsi untuk...",
-            pilihan: {
-                A: "Memecah lemak menjadi asam lemak dan gliserol.",
-                B: "Menghancurkan RNA dan DNA menjadi mononukleotida.",
-                C: "Menghancurkan protein menjadi asam amino.",
-                D: "Memisahkan gugus fosfat dari molekul.",
-                E: "Membentuk ATP dari glukosa."
-            },
-            kunci: 'A',
-            pembahasan: "Presentasi menyebutkan bahwa Lipase di dalam lisosom berfungsi memecah lemak menjadi asam lemak dan gliserol."
-        },
-        {
-            soal: "Organel peroksisom banyak ditemukan pada sel-sel di organ...",
-            pilihan: {
-                A: "Tubulus renal dan hepar",
-                B: "Otot dan saraf",
-                C: "Tulang dan kulit",
-                D: "Jantung dan paru-paru",
-                E: "Lambung dan usus"
-            },
-            kunci: 'A',
-            pembahasan: "Disebutkan secara spesifik bahwa peroksisom banyak ditemukan pada tubulus renal (ginjal) dan hepar (hati)."
-        },
-        {
-            soal: "Manakah dari berikut ini yang merupakan fungsi sitoskeleton?",
-            pilihan: {
-                A: "Membentuk silia dan flagela sebagai alat pergerakan sel.",
-                B: "Mensintesis protein dan lipid.",
-                C: "Menghasilkan energi untuk sel.",
-                D: "Menyimpan informasi genetik.",
-                E: "Mengatur keluar masuknya zat dari sel."
-            },
-            kunci: 'A',
-            pembahasan: "Salah satu fungsi sitoskeleton yang tercantum dalam presentasi adalah 'Membentuk silia dan flagella sebagai alat pergerakan sel'."
-        },
-        {
-            soal: "Bagian dari nukleus yang merupakan tempat sintesis subunit ribosom adalah...",
-            pilihan: {
-                A: "Nukleolus",
-                B: "Pori nukleus",
-                C: "Membran nukleus",
-                D: "Kromatin",
-                E: "Nukleoplasma"
-            },
-            kunci: 'A',
-            pembahasan: "Meskipun tidak dijelaskan secara detail dalam presentasi ini, nukleolus secara umum dikenal sebagai pabrik ribosom. Tabel perbandingan menunjukkan eukariot memiliki nukleolus, sedangkan prokariot tidak, yang berkorelasi dengan kompleksitas sintesis proteinnya."
-        },
-        {
-            soal: "Menurut diagram, apa yang terjadi pada protein setelah masuk ke dalam lumen RE Kasar?",
-            pilihan: {
-                A: "Protein mengalami pelipatan dan modifikasi awal.",
-                B: "Protein langsung dihancurkan.",
-                C: "Protein digunakan sebagai sumber energi.",
-                D: "Protein diubah menjadi lipid.",
-                E: "Protein menempel pada DNA."
-            },
-            kunci: 'A',
-            pembahasan: "Proses di dalam RE Kasar dan Golgi adalah untuk modifikasi dan pelipatan protein. Protein yang baru disintesis akan berakumulasi di lumen untuk diproses lebih lanjut sebelum disekresikan."
-        },
-        {
-            soal: "Struktur sel yang secara langsung terlibat dalam proses fagositosis adalah...",
-            pilihan: {
-                A: "Membran plasma dan lisosom",
-                B: "Nukleus dan mitokondria",
-                C: "RE Kasar dan RE Halus",
-                D: "Ribosom dan Aparatus Golgi",
-                E: "Sitoskeleton dan sentriol"
-            },
-            kunci: 'A',
-            pembahasan: "Fagositosis melibatkan membran plasma yang melingkupi partikel untuk membentuk fagosom, yang kemudian akan menyatu dengan lisosom untuk pencernaan."
-        },
-        {
-            soal: "Seluruh isi sel yang dibatasi oleh membran plasma, termasuk sitoplasma dan nukleus, secara kolektif disebut...",
-            pilihan: {
-                A: "Protoplasma",
-                B: "Sitosol",
-                C: "Cairan interstisial",
-                D: "Nukleoid",
-                E: "Matriks ekstraseluler"
-            },
-            kunci: 'A',
-            pembahasan: "Protoplasma adalah istilah biologis untuk substansi hidup di dalam sel. Sitoplasma adalah bagian protoplasma di luar nukleus. Jadi, protoplasma adalah istilah yang lebih inklusif."
-        },
-        {
-            soal: "Mengapa mitokondria juga mengandung DNA dan ribosom sendiri?",
-            pilihan: {
-                A: "Memungkinkan mitokondria untuk mensintesis beberapa proteinnya sendiri.",
-                B: "Untuk menyimpan cadangan informasi genetik jika DNA inti rusak.",
-                C: "Untuk menghasilkan ATP tanpa memerlukan oksigen.",
-                D: "DNA dan ribosom tersebut tidak fungsional.",
-                E: "Sebagai sisa dari proses evolusi yang tidak memiliki fungsi."
-            },
-            kunci: 'A',
-            pembahasan: "Diagram mitokondria menunjukkan adanya DNA dan ribosom. Ini mendukung teori endosimbiosis dan secara fungsional memungkinkan mitokondria memproduksi sendiri sebagian protein yang dibutuhkannya untuk respirasi seluler."
-        },
-        {
-            soal: "Jika lisosom dalam sebuah sel pecah dan melepaskan seluruh isinya ke sitosol, apa yang kemungkinan besar akan terjadi?",
-            pilihan: {
-                A: "Sel akan mengalami autodigesti atau lisis karena enzim hidrolitik mencerna komponen sel.",
-                B: "Sel akan membelah diri dengan cepat.",
-                C: "Produksi ATP akan meningkat secara drastis.",
-                D: "Tidak akan terjadi apa-apa karena sitosol bersifat basa.",
-                E: "Sel akan berubah menjadi sel prokariotik."
-            },
-            kunci: 'A',
-            pembahasan: "Enzim hidrolase asam dari lisosom akan merusak makromolekul penting di sitoplasma jika membran lisosom bocor. Meskipun pH sitosol tidak optimal (sekitar 7.2), pelepasan masif enzim ini tetap akan menyebabkan kerusakan sel yang signifikan (autolisis)."
-        },
-        {
-            soal: "Manakah dari fungsi berikut yang TIDAK dilakukan oleh sitoskeleton?",
-            pilihan: {
-                A: "Menyimpan informasi genetik sel.",
-                B: "Memandu gerakan material di dalam sel.",
-                C: "Mempertahankan bentuk sel.",
-                D: "Menjadi komponen penting dalam pembelahan sel.",
-                E: "Menahan organel di tempatnya."
-            },
-            kunci: 'A',
-            pembahasan: "Penyimpanan informasi genetik adalah fungsi utama dari nukleus. Sitoskeleton berperan dalam struktur, pergerakan, dan pembelahan, tetapi bukan penyimpanan informasi."
-        },
-        {
-            soal: "Protein yang ditujukan untuk digunakan di dalam sitosol (misalnya, enzim untuk glikolisis) kemungkinan besar disintesis oleh...",
-            pilihan: {
-                A: "Ribosom bebas di sitoplasma",
-                B: "Ribosom yang terikat pada RE Kasar",
-                C: "Aparatus Golgi",
-                D: "Mitokondria",
-                E: "Nukleus"
-            },
-            kunci: 'A',
-            pembahasan: "Presentasi membedakan ribosom bebas dan yang terikat. Ribosom yang terikat pada RE Kasar mensintesis protein untuk sekresi, membran, atau organel tertentu. Ribosom bebas mensintesis protein yang akan berfungsi di dalam sitosol itu sendiri."
-        },
-        {
-            soal: "Organisme manakah yang memiliki sel dengan dinding sel, kloroplas, dan vakuola sentral yang besar?",
-            pilihan: {
-                A: "Tumbuhan",
-                B: "Hewan",
-                C: "Bakteri",
-                D: "Jamur",
-                E: "Protista mirip hewan"
-            },
-            kunci: 'A',
-            pembahasan: "Meskipun tidak menjadi fokus utama, diagram perbandingan sel hewan dan tumbuhan menunjukkan bahwa sel tumbuhan memiliki dinding sel, kloroplas, dan vakuola yang tidak dimiliki sel hewan, yang merupakan pengetahuan dasar dari materi ini."
-        },
-        {
-            soal: "Enzim yang ditemukan di dalam lisosom dan berfungsi untuk menghancurkan protein serta peptida menjadi asam amino adalah...",
-            pilihan: {
-                A: "Protease",
-                B: "Lipase",
-                C: "Nuklease",
-                D: "Katalase",
-                E: "Polimerase"
-            },
-            kunci: 'A',
-            pembahasan: "Berdasarkan materi presentasi (slide 26), lisosom mengandung berbagai enzim hidrolitik. Salah satunya adalah Protease, yang berfungsi menghancurkan protein dan peptida menjadi asam amino."
-        }
+    const questions = [
+        { id: 1, q: "Apakah enzim yang terlibat langsung dalam proses pengaturan pernafasan yang melibatkan beberapa proses kimia?", options: ["Katalase", "Fosforilase", "Karbonik anhidrase", "Deaminase", "Amilase"], answer: "c" },
+        { id: 2, q: "Dalam model ventilasi paru menggunakan kubus (dinding thoraks), pipet (saluran pernafasan), dan balon (jaringan paru), apakah yang terjadi saat penambahan volume kubus?", options: ["Menambah tekanan dalam kubus", "Mengurangi volume balon", "Mengurangi tekanan dalam balon", "Tidak berpengaruh terhadap tekanan balon", "Menambah tekanan dalam balon"], answer: "c" },
+        { id: 3, q: "Bagaimana gambaran mikroskopis retikulosit?", options: ["Inti longgar", "Tidak berinti", "Hampir seukuran eritrosit", "Inti 2 lobus", "Ukuran 2-4 mikron"], answer: "c" },
+        { id: 4, q: "Manakah karakteristik makrofag yang berbeda dengan neutrofil?", options: ["Lisosom memiliki enzim proteolitik", "Memiliki agen bakterisidal", "Merupakan sel immatur", "Lisosom memiliki enzim lipase", "Memiliki agen bakteriostatik"], answer: "c" },
+        { id: 5, q: "Manakah salah satu tanda irama sinus pada rekaman EKG?", options: ["Gel P positif di LII dan negatif di AVR", "Gel P negatif di LII dan positif di AVR", "PR interval 0,20 detik", "Gel QRS mendahului gel P", "Gel P positif di LII dan positif di AVR"], answer: "a" },
+        { id: 6, q: "Apakah proses yang menyebabkan gambaran fase IV pada grafik volume-tekanan ventrikel (setelah titik D menuju A)?", options: ["Fase ejeksi ventrikel", "Isovolumetrik relaksasi", "Diastasis", "Rapid filling", "Isovolumetrik kontraksi"], answer: "b" },
+        { id: 7, q: "Berapakah pOH larutan 0,002 KOH?", options: ["2", "3 - log 2", "3 + log 2", "2 - log 2", "2 + log 2"], answer: "b" },
+        { id: 8, q: "Berapakah jumlah cairan intraseluler pada laki-laki dewasa?", options: ["40%", "50%", "30%", "10%", "20%"], answer: "a" },
+        { id: 9, q: "Berikut ini manakah pernyataan yang tidak sesuai dengan Faktor von Willebrand?", options: ["Berikatan dengan reseptor endotel", "Dibuat oleh platelet", "Berikatan dengan reseptor platelet", "Pengeluarannya dirangsang oleh hipoksia", "Dibuat oleh endotel"], answer: "b" },
+        { id: 10, q: "Di manakah lokasi vena yang akan dilakukan tindakan vena seksi pada kasus kesulitan pemasangan infus akibat kolaps pembuluh darah pada pasien kecelakaan?", options: ["Bagian lateral regio cruris dekat malleolus lateralis", "Bagian medial regio cruris dekat malleolus medialis", "Bagian anterior regio cruris dekat malleolus lateralis", "Bagian posterior regio cruris dekat malleolus medialis", "Bagian anterior regio cruris dekat malleolus medialis"], answer: "b" },
+        { id: 11, q: "Apakah gangguan fungsi yang disebabkan oleh keracunan gas CO?", options: ["Peningkatan oksigen pada hemoglobin", "Hantaran impuls saraf otak", "Hantaran listrik jantung", "Metabolisme energi di sitoplasma sel", "Pertukaran gas di paru-paru"], answer: "e" },
+        { id: 12, q: "Pasien wanita 24 tahun dengan Hb rendah. Apakah ciri sel darah yang terkait kondisi pasien tersebut?", options: ["Agranul, inti longgar", "Granul halus, inti batang", "Bagian tengah pucat, bikonkaf", "Ukuran 2 mikron, tanpa inti", "Granul kasar, eosinofilik"], answer: "c" },
+        { id: 13, q: "Manakah peran vasopressin terhadap pengontrolan osmolaritas cairan ekstrasel?", options: ["Peningkatan permeabilitas tubulus proksimal terhadap H₂O", "Reabsorbsi air pada tubulus distal dan ductus collectivus", "Meningkatkan jumlah intake cairan yang diminum", "Peningkatan resistensi perifer melalui vasokontriksi arteriol", "Terjadi proses reabsorbsi garam disertai reabsorbsi H₂O"], answer: "b" },
+        { id: 14, q: "Apakah peran ion hidrogen ($H^+$) yang kadarnya meninggi akibat gangguan keseimbangan asam basa metabolik terhadap proses pernafasan?", options: ["Membuffer kadar $CO_2$ di jaringan", "Stimulasi langsung terhadap pusat pernafasan", "Mengeliminasi gas $CO_2$", "Membantu transportasi oksigen", "Mengoptimalkan proses difusi gas"], answer: "b" },
+        { id: 15, q: "Apakah proses yang dialami oleh atlet yang berlatih di daerah ketinggian ($\pm3500$ kaki di atas permukaan laut) dalam waktu yang lama?", options: ["Aklimatisasi", "Depresi", "Aktivasi", "Intimidasi", "Sosialisasi"], answer: "a" },
+        { id: 16, q: "Apakah penyebab perubahan dari A ke B pada grafik Stroke Volume (SV) vs LVEDP (Left Ventricular End-Diastolic Pressure)?", options: ["Penurunan preload", "Penurunan afterload", "Peningkatan preload", "Peningkatan afterload", "Peningkatan kontraktilitas"], answer: "c" },
+        { id: 17, q: "Di manakah perjalanan impuls listrik yang berasal dari berkas His cabang kiri dan kanan?", options: ["Di endocardium", "Di sub-endocardium", "Dari nodus SA menuju nodus AV", "Dari atrium kanan menuju atrium kiri", "Di miokardium"], answer: "b" },
+        { id: 18, q: "Apakah yang terjadi di daerah anggota bawah tubuh pada pasien kaki gajah yang menyebabkan aliran limfe sulit melewati kelenjar limfe di pangkal paha?", options: ["Protein sulit keluar dari kapiler ke interstitium", "Tekanan osmotik cairan interstitium meningkat", "Sphincter prekapiler kontraksi", "Aliran darah dari arteriol berkurang", "Aliran dari kapiler ke vena meningkat"], answer: "b" },
+        { id: 19, q: "Berapakah konsentrasi klorida ($Cl^-$) yang merupakan anion terbanyak dalam cairan ekstraseluler?", options: ["1 mEq/L", "2 mEq/L", "6 mEq/L", "24 mEq/L", "105 mEq/L"], answer: "e" },
+        { id: 20, q: "Seorang atlet pendaki gunung menderita hipoksia. Apakah hasil pemeriksaan darah yang akan ditemukan?", options: ["Kadar 2.3 DPG meningkat", "pH darah sedikit meningkat", "Afinitas Hb terhadap $O_2$ meningkat", "$pCO_2$ menurun", "Bikarbonat darah meningkat"], answer: "a" },
+        { id: 21, q: "Apakah bagian jantung yang terbentuk pertama pada embriogenesis?", options: ["Sinus venosus", "Buluh endokard", "Aorta", "Vena kava", "Duktus arteriosus"], answer: "b" },
+        { id: 22, q: "Apakah penyebab terjadinya suara jantung 2?", options: ["Tegangan pada chordae tendineae dan ring atrioventrikular", "Penutupan katup atrioventrikular", "Kontraksi atrium yang melawan ventrikel yang kaku", "Adanya regurgitasi dari katup semilunaris", "Penutupan katup semilunaris"], answer: "e" },
+        { id: 23, q: "Berikut ini manakah yang termasuk zat kimiawi perangsang khemotaksis?", options: ["Produk regenerasi jaringan radang", "Produk granulopoiesis", "Produk eritropoiesis", "Produk reaksi pembekuan plasma", "Produk respirasi oksidatif"], answer: "a" },
+        { id: 24, q: "Organ respirasi apa yang berkembang dari diverticulum respiratorius?", options: ["Trachea", "Bronchus", "Cavum nasi", "Pharynx", "Larynx"], answer: "e" },
+        { id: 25, q: "Apakah struktur histologis pembuluh yang menyebabkan perubahan wajah Pak Angri menjadi memerah (vasodilatasi)?", options: ["Selapis endotel dan otot lurik", "Epitel selapis gepeng dan otot polos", "Selapis endotel dan otot polos", "Epitel selapis gepeng", "Selapis endotel"], answer: "c" },
+        { id: 26, q: "Dalam bentuk apakah penyimpanan $Fe^{3+}$ di dalam sel?", options: ["Feritin", "Hemoglobin", "Ceruloplasmin", "Transferin", "Hemosiderin"], answer: "a" },
+        { id: 27, q: "Manakah kriteria larutan bersifat basa di bawah ini?", options: ["$[H^+] > 10^{-7}, pH > 7$", "$[H^+] > 10^{-7}, pH < 7$", "$[H^+] = 10^{-7}, pH = 7$", "$[H^+] < 10^{-7}, pH > 7$", "$[H^+] < 10^{-7}, pH < 7$"], answer: "d" },
+        { id: 28, q: "Apakah pengaruh peningkatan kadar $Ca^{2+}$ terhadap kontraksi jantung?", options: ["Hambatan ikatan aktin - myosin oleh tropomyosin", "Penurunan aktivitas potensial listrik dari sel pemacu jantung", "Penurunan kelistrikan kontraksi jantung", "Penurunan kompleks troponin/tropomyosin", "Penghambatan pelepasan $Ca^{2+}$ oleh retikulum sarkoplasma"], answer: "d" },
+        { id: 29, q: "Manakah pernyataan yang benar untuk tingkat keasaman?", options: ["Semakin tinggi pH semakin asam larutan", "Semakin rendah konsentrasi $H^+$ semakin basa larutan", "Setiap peningkatan 1 nilai pH akan mengakibatkan peningkatan konsentrasi $H^+$ 10 kali lipat", "Setiap penurunan 1 nilai pH akan mengakibatkan penurunan konsentrasi $H^+$ 10 kali lipat", "Semakin tinggi pH semakin tinggi konsentrasi $H^+$"], answer: "b" },
+        { id: 30, q: "Pada kaskade hemostasis, protrombin akan diaktifkan menjadi trombin. Apakah faktor yang membantu dalam pengaktifan ini?", options: ["Faktor VIIa", "Pre kallikrein", "Ion kalsium", "Faktor XIIa", "HMW kininogen"], answer: "c" },
+        { id: 31, q: "Manakah pembuluh darah yang mengalami gangguan aliran balik yang dimaksud dokter pada kasus udema ekstremitas superior kanan akibat penekanan metastase tumor?", options: ["V. Subclavia sinistra", "Truncus brachiocephalica", "V. jugularis interna dekstra", "V. Axillaris", "A. Axillaris"], answer: "d" },
+        { id: 32, q: "Apakah bagian saluran nafas yang berasal dari lengkung faring ke-4?", options: ["Cavum nasi", "Trachea", "Bronchus", "Septum nasi", "Cartilago thyroidea"], answer: "e" },
+        { id: 33, q: "Di manakah letak pembesaran tonsil palatina pada kasus anak dengan hidung tersumbat dan pharynx meradang?", options: ["Laryngopharynx", "Oropharynx", "Cavum nasi", "Nasopharynx", "Cavum oris"], answer: "b" },
+        { id: 34, q: "Apakah lapisan epitel bagian dalam pembuluh darah (saat pemeriksaan nadi)?", options: ["Endotel", "Epitel selapis torak", "Epitel berlapis gepeng", "Epitel selapis gepeng", "Mesotel"], answer: "a" },
+        { id: 35, q: "Seorang laki-laki usia 30 tahun memiliki berat 65 kg dan tinggi 163 cm. Berapakah perkiraan volume cairan ekstraselnya?", options: ["2 liter", "13 liter", "28 liter", "45 liter", "65 liter"], answer: "b" },
+        { id: 36, q: "Di manakah terjadi perlambatan aliran listrik paling besar pada otot jantung?", options: ["Serat purkinje", "Atrium dekstra", "Nodus SA", "Berkas His", "Nodus AV"], answer: "e" },
+        { id: 37, q: "Pada adhesi platelet, reseptor platelet dapat berikatan dengan komponen subendotel. Manakah yang termasuk komponen yang dimaksud?", options: ["Troponin", "Miosin", "Kolagen", "Endothelin", "Aktin"], answer: "c" },
+        { id: 38, q: "Manakah mekanisme neurohumoral yang berperan dalam pengontrolan osmolaritas cairan ekstrasel yang berfungsi meningkatkan sekresi vasopressin dan rasa haus sekalian?", options: ["Konsumsi alkohol dan kafein", "Angiotensin II", "Aktivasi reseptor volume atrium kiri", "Kekeringan pada mulut", "Stress"], answer: "b" },
+        { id: 39, q: "Manakah kation utama pada pendekatan Stewart?", options: ["Albumin", "Na", "K", "Cl", "Laktat"], answer: "b" },
+        { id: 40, q: "Apakah yang terjadi saat pengembangan dada (inspirasi)?", options: ["Tekanan rongga thorak bertambah", "Ruang rongga thorak bertambah", "Ruang rongga thorak berkurang", "Tekanan intra pleura bertambah", "Volume paru berkurang"], answer: "b" },
+        { id: 41, q: "Bagaimana gambaran mikroskopis megakariosit?", options: ["Ukuran besar dan inti menutupi seluruh sitoplasma", "Ukuran 2-4 mikron", "Tidak terdapat inti", "Ukuran eritrosit, inti padat", "Ukuran besar, inti banyak"], answer: "a" },
+        { id: 42, q: "Dari manakah sebagian besar masuknya $Ca^{2+}$ ke dalam sel otot jantung?", options: ["$Ca^{2+}$ pump sarcolemma", "Ca channel L-type voltage gated", "Ryanodine receptor", "$Ca^{2+}-Na^+$ antiporter", "SERCA"], answer: "b" },
+        { id: 43, q: "Apakah nama pembuluh balik yang mengalami peningkatan tekanan pada kasus sirosis hepar dengan hematemesis melena?", options: ["V. Porta", "V. Hepatica", "V. Cava inferior", "V. Mesentrica superior", "V. Mesentrica inferior"], answer: "a" },
+        { id: 44, q: "Apakah struktur yang menyebabkan udara pernapasan terasa hangat (penghangatan udara)?", options: ["Tulang rawan hialin", "Kapiler di lamina propria", "Mukosa gland", "Epitel selapis torak", "Silia"], answer: "b" },
+        { id: 45, q: "Apakah parameter yang dapat digunakan sebagai indikator aklimatisasi pada atlet di daerah ketinggian?", options: ["Hitung hemoglobin", "Hitung jumlah eritrosit", "Hitung hematokrit", "Hitung jumlah leukosit", "Hitung LED"], answer: "a" },
+        { id: 46, q: "Apakah penjelasan dari nasehat pelatih tentang pentingnya makanan seimbang untuk menjaga daya tahan tubuh?", options: ["Pemberian karbohidrat sebelum memulai latihan", "Latihan beban berat perlu menambahkan lemak lebih dua kali lipat", "Makanan seimbang akan menjamin ketahanan kardiorespirasi yang prima", "Asupan lemak yang banyak akan menjamin ketersediaan energi", "Setiap latihan perlu suplemen"], answer: "c" },
+        { id: 47, q: "Apa yang menghubungkan atrium kanan dengan atrium kiri pada jantung janin?", options: ["Foramen rotundum", "Ductus arteriosus", "Ligamentum arteriosum", "Foramen ovale", "Ductus venosus"], answer: "d" },
+        { id: 48, q: "Apakah yang membatasi apertura thoracalis inferior di bagian anterior?", options: ["Processus xyphoideus", "Costae 6", "Costae 12", "Corpus sterni", "Diaphragma"], answer: "a" },
+        { id: 49, q: "Dalam bentuk apakah besi diangkut di dalam darah (sebagai $Fe^{3+}$)?", options: ["Transferin", "Hemoglobin", "Feritin", "Ceruloplasmin", "Hemosiderin"], answer: "a" },
+        { id: 50, q: "Bagaimanakah gambaran mikroskopis struktur saluran nafas yang dilubangi (trakea) untuk membuat lubang pada saluran nafas?", options: ["Terdapat tulang rawan berbentuk lempeng", "Epitelnya kolumnar rendah", "Tulang rawan berbentuk C", "Epitel selapis gepeng", "Otot polos mulai hilang"], answer: "c" },
+        { id: 51, q: "Bagaimana gambaran mikroskopis dari monosit?", options: ["Inti longgar", "Granul basofilik", "Agranul, inti padat", "Inti batang", "Ukuran eritrosit"], answer: "a" },
+        { id: 52, q: "Sel apakah yang tidak ditemukan pada sumsum tulang?", options: ["Eritroblast", "Proeritroblast", "Mielosit", "Promielosit", "Limfoblast"], answer: "e" },
+        { id: 53, q: "Enzim apakah yang membawa sebagian besar Fe dalam plasma?", options: ["Hemosiderin", "Ceruloplasmin", "Transferrin", "Hemoglobin", "Feritin"], answer: "c" },
+        { id: 54, q: "Apakah nama pembuluh darah yang diperiksa denyutnya pada kasus fraktur tertutup Regio Cruris (tungkai bawah)?", options: ["A. Dorsalis pedis", "A. Plantaris pedis", "A. Tibialis anterior", "A. Poplitea", "A. Femoralis"], answer: "a" },
+        { id: 55, q: "Apakah peran utama reseptor volume atrium kiri ketika terjadi penurunan volume cairan?", options: ["Peningkatan rasa haus saja", "Pelepasan atrial natriuretic peptide", "Penurunan intake air", "Pelepasan vasopressin saja", "Pelepasan vasopressin dan peningkatan rasa haus"], answer: "e" },
+        { id: 56, q: "Bagaimanakah cara menentukan tekanan darah dengan metode tidak langsung tanpa stetoskop (palpasi)?", options: ["Ditentukan melalui denyut di A. Brachialis", "Ditentukan melalui waktu pengisian kapiler", "Ditentukan saat nadi menghilang ketika tekanan dinaikkan", "Ditentukan melalui denyut di V. Mediana cubiti", "Ditentukan saat nadi mulai teraba ketika tekanan diturunkan"], answer: "e" },
+        { id: 57, q: "Kapankah respon kegiatan aklimatisasi atlet di daerah ketinggian akan dapat diketahui?", options: ["Seminggu setelah latihan", "Satu atau dua hari setelah latihan", "Pertengahan oktober 2020", "Tak dapat diperkirakan", "Setelah empat bulan kemudian"], answer: "a" },
+        { id: 58, q: "$CO_2$ diekspirasikan oleh paru. Apakah proses yang menghasilkannya?", options: ["Glikolisis dalam eritrosit", "Biosintesis hemoglobin", "Fosforilasi oksidatif", "Siklus kreb's", "Pertukaran gas di alveoli paru"], answer: "d" },
+        { id: 59, q: "Manakah kriteria larutan bersifat asam di bawah ini?", options: ["$[H^+] > 10^{-7}, pH > 7$", "$[H^+] > 10^{-7}, pH < 7$", "$[H^+] = 10^{-7}, pH = 7$", "$[H^+] < 10^{-7}, pH \ge 7$", "$[H^+] < 10^{-7}, pH < 7$"], answer: "b" },
+        { id: 60, q: "Dimanakah letak ostium tuba auditorius (untuk menjaga keseimbangan udara telinga tengah)?", options: ["Cavum nasi", "Nasopharynx", "Oropharynx", "Laryngopharynx", "Cavum oris"], answer: "b" },
+        { id: 61, q: "Apakah bagian yang membentuk basis jantung?", options: ["V. Cava superior", "Aorta ascendens", "Atrium dekstra", "Atrium sinistra", "Ventrikel sinistra"], answer: "d" },
+        { id: 62, q: "Metode apakah yang digunakan pada perpindahan glukosa keluar masuk materi pada kapiler?", options: ["Osmosis", "Bulk flow", "Difusi", "Endositosis", "Eksositosis"], answer: "c" },
+        { id: 63, q: "Apakah fungsi dari filamen proteoglikan di interstisium?", options: ["Mempertahankan komposisi cairan interstisium", "Mempertahankan posisi cairan interstisium", "Mempertahankan tekanan osmotik jaringan", "Mempertahankan tekanan hidrostatik jaringan", "Membantu filtrasi cairan interstisium"], answer: "b" },
+        { id: 64, q: "Di bawah ini, manakah yang merupakan ciri-ciri radang?", options: ["Vasokontriksi lokal", "Peningkatan permeabilitas kapiler", "Peningkatan reabsorpsi kapiler", "Peningkatan eritropoiesis", "Migrasi granulosit dan agranulosit"], answer: "b" }
     ];
 
-    // --- State Variables ---
-    let soalAktifIndex = 0;
-    let jawabanPengguna = [];
-    let randomizedBankSoal = [];
+    const optionMap = { 0: 'a', 1: 'b', 2: 'c', 3: 'd', 4: 'e' };
 
-    // --- DOM Elements ---
-    const quizSection = document.getElementById('quiz-section');
-    const hasilContainer = document.getElementById('hasil-container');
-    const mainHeader = document.getElementById('main-header');
-    const progressText = document.getElementById('progress-text');
-    const progressBarFill = document.getElementById('progress-bar-fill');
-    const soalDisplay = document.getElementById('soal-display');
-    const navGrid = document.getElementById('navigasi-grid');
-    const btnPrev = document.getElementById('btn-prev');
-    const btnNext = document.getElementById('btn-next');
-    const btnSelesai = document.getElementById('btn-selesai');
-    const togglePanelBtn = document.getElementById('toggle-panel-btn');
+    function generateQuiz() {
+        const quizForm = document.getElementById('quizForm');
+        let htmlContent = '';
+        const labels = ['a', 'b', 'c', 'd', 'e'];
 
-    // --- Functions ---
+        questions.forEach((q, index) => {
+            let optionsHtml = q.options.map((option, i) => `
+                <label class="option-label">
+                    <input type="radio" name="q${q.id}" value="${labels[i].toLowerCase()}">
+                    ${labels[i].toUpperCase()}. ${option}
+                </label>
+            `).join('');
 
-    function shuffleArray(array) {
-        for (let i = array.length - 1; i > 0; i--) {
-            const j = Math.floor(Math.random() * (i + 1));
-            [array[i], array[j]] = [array[j], array[i]];
-        }
-        return array;
-    }
-
-    function startQuiz() {
-        randomizedBankSoal = shuffleArray([...bankSoal]);
-        jawabanPengguna = new Array(randomizedBankSoal.length).fill(null);
-        
-        initQuiz();
-
-        welcomeScreen.classList.add('hidden');
-        welcomeScreen.addEventListener('transitionend', () => {
-            welcomeScreen.style.display = 'none';
-            document.body.style.alignItems = 'flex-start';
-            appContainer.classList.add('visible');
-        }, { once: true });
-    }
-
-    function updateProgressBar() {
-        const percent = ((soalAktifIndex + 1) / randomizedBankSoal.length) * 100;
-        progressBarFill.style.width = `${percent}%`;
-        progressText.textContent = `Soal ${soalAktifIndex + 1} dari ${randomizedBankSoal.length}`;
-    }
-
-    function tampilkanSoal(index) {
-        if (index < 0 || index >= randomizedBankSoal.length) return;
-        soalAktifIndex = index;
-        const soal = randomizedBankSoal[index];
-
-        soalDisplay.style.opacity = '0';
-        
-        setTimeout(() => {
-            updateProgressBar();
-            
-            let pilihanHtml = Object.keys(soal.pilihan).map(key => 
-                `<button class="pilihan-btn" data-pilihan="${key}">
-                   <span class="pilihan-text"><b>${key}.</b> ${soal.pilihan[key]}</span>
-                 </button>`
-            ).join('');
-
-            soalDisplay.innerHTML = `<div class="soal-text">${soal.soal}</div><div class="pilihan-container">${pilihanHtml}</div>`;
-
-            document.querySelectorAll('.pilihan-btn').forEach(btn => {
-                btn.addEventListener('click', (event) => pilihJawaban(index, btn.dataset.pilihan, event));
-                if (jawabanPengguna[index] === btn.dataset.pilihan) {
-                    btn.classList.add('selected');
-                }
-            });
-
-            soalDisplay.style.opacity = '1';
-            updateNavigasi();
-            
-            soalDisplay.scrollTop = 0;
-        }, 200);
-    }
-
-    function pilihJawaban(indexSoal, pilihan, event) {
-        jawabanPengguna[indexSoal] = pilihan;
-        soalDisplay.querySelectorAll('.pilihan-btn').forEach(btn => btn.classList.remove('selected'));
-        if (event && event.currentTarget) {
-            event.currentTarget.classList.add('selected');
-        }
-        updateNavigasi();
-    }
-
-    function updateNavigasi() {
-        btnPrev.disabled = soalAktifIndex === 0;
-        btnNext.disabled = soalAktifIndex === randomizedBankSoal.length - 1;
-        
-        document.querySelectorAll('.nav-grid-btn').forEach(btn => {
-            const index = parseInt(btn.dataset.index);
-            btn.className = 'nav-grid-btn';
-            if (jawabanPengguna[index] !== null) btn.classList.add('answered');
-            if (index === soalAktifIndex) btn.classList.add('active');
-        });
-    }
-
-    function selesaikanKuis() {
-        const belumDijawab = jawabanPengguna.filter(j => j === null).length;
-        let message = "Apakah Anda yakin ingin menyelesaikan ujian? Jawaban tidak dapat diubah kembali.";
-        if (belumDijawab > 0) {
-            message = `Anda memiliki <strong>${belumDijawab}</strong> soal yang belum dijawab.<br><br>Yakin ingin menyelesaikan?`;
-        }
-        showConfirmationModal(message, hitungDanTampilkanHasil);
-    }
-
-    function hitungDanTampilkanHasil() {
-        if(quizSection) quizSection.style.display = 'none';
-        if(mainHeader) mainHeader.style.display = 'none';
-        hasilContainer.classList.add('visible');
-
-        let skorBenar = 0;
-        jawabanPengguna.forEach((jawaban, index) => {
-            if (jawaban === randomizedBankSoal[index].kunci) skorBenar++;
-        });
-        const skorSalah = randomizedBankSoal.length - skorBenar;
-        const nilaiAkhir = (skorBenar / randomizedBankSoal.length) * 100;
-
-        let kunciJawabanHtml = randomizedBankSoal.map((soal, index) => {
-            const jawabanUser = jawabanPengguna[index];
-            const isCorrect = jawabanUser === soal.kunci;
-            const statusClass = isCorrect ? 'benar' : 'salah';
-            
-            let jawabanAndaText = '<em>Tidak dijawab</em>';
-            if(jawabanUser) {
-                const warnaJawaban = isCorrect ? 'var(--correct-glow)' : 'var(--incorrect-glow)';
-                jawabanAndaText = `<span style="color: ${warnaJawaban};">${soal.pilihan[jawabanUser]}</span>`;
-            }
-
-            return `
-            <div class="kunci-item ${statusClass}">
-                <p class="kunci-item-soal"><strong>Soal ${index + 1}:</strong> ${soal.soal}</p>
-                <p><strong>Jawaban Anda:</strong> ${jawabanAndaText}</p>
-                <p style="color: var(--correct-glow)"><strong>Jawaban Benar:</strong> ${soal.pilihan[soal.kunci]}</p>
-                <div class="pembahasan"><strong>Pembahasan:</strong> ${soal.pembahasan}</div>
-            </div>`;
-        }).join('');
-
-        hasilContainer.innerHTML = `
-        <div class="hasil-wrapper">
-            <div id="hasil-header">
-                <h2>Hasil Ujian Anda</h2>
-                <div id="skor-final">${nilaiAkhir.toFixed(0)}</div>
-                <div class="statistik-container">
-                    <div id="statistik-jawaban">
-                        <p class="benar"><i class="fas fa-check-circle"></i> Benar: <strong>${skorBenar}</strong></p>
-                        <p class="salah"><i class="fas fa-times-circle"></i> Salah: <strong>${skorSalah}</strong></p>
-                    </div>
+            htmlContent += `
+                <div class="question-box" id="question-${q.id}">
+                    <div class="question-text">${q.id}. ${q.q}</div>
+                    ${optionsHtml}
+                    <div class="explanation" id="exp-${q.id}"></div>
                 </div>
-            </div>
-            <div id="kunci-jawaban-wrapper">
-                <h3>Kunci Jawaban & Pembahasan</h3>
-                ${kunciJawabanHtml}
-            </div>
-            <div class="btn-ulangi-container">
-                <button onclick="window.location.reload()" class="primary-action-btn">
-                    <i class="fas fa-redo"></i> Ulangi Ujian
-                </button>
-            </div>
-        </div>`;
+            `;
+        });
+
+        quizForm.innerHTML = htmlContent;
+    }
+
+    function checkResults() {
+        let score = 0;
+        const total = questions.length;
+        const resultsDiv = document.getElementById('results');
         
+        questions.forEach(q => {
+            const questionBox = document.getElementById(`question-${q.id}`);
+            const explanationDiv = document.getElementById(`exp-${q.id}`);
+            const selectedOption = document.querySelector(`input[name="q${q.id}"]:checked`);
+            
+            questionBox.style.backgroundColor = '#e9ecef';
+            questionBox.style.border = '1px solid #ddd';
+            explanationDiv.style.display = 'none';
+
+            if (selectedOption) {
+                const userAnswer = selectedOption.value;
+                if (userAnswer === q.answer) {
+                    score++;
+                    questionBox.style.backgroundColor = '#d4edda'; // Green for correct
+                    questionBox.style.border = '1px solid #c3e6cb';
+                    explanationDiv.innerHTML = "✅ Jawaban Benar!";
+                    explanationDiv.style.color = '#155724';
+                    explanationDiv.style.display = 'block';
+                } else {
+                    questionBox.style.backgroundColor = '#f8d7da'; // Red for incorrect
+                    questionBox.style.border = '1px solid #f5c6cb';
+                    
+                    const correctOptionText = q.options[q.answer.charCodeAt(0) - 'a'.charCodeAt(0)];
+                    explanationDiv.innerHTML = `❌ Jawaban Salah. Kunci: **${q.answer.toUpperCase()}. ${correctOptionText}**`;
+                    explanationDiv.style.color = '#721c24';
+                    explanationDiv.style.display = 'block';
+                }
+            } else {
+                questionBox.style.backgroundColor = '#fff3cd'; // Yellow for unanswered
+                questionBox.style.border = '1px solid #ffeeba';
+                explanationDiv.innerHTML = "Anda belum menjawab soal ini.";
+                explanationDiv.style.color = '#856404';
+                explanationDiv.style.display = 'block';
+            }
+        });
+
+        resultsDiv.innerHTML = `
+            === 🎯 Hasil Kuis === <br>
+            Anda berhasil menjawab **${score}** dari **${total}** soal. <br>
+            Skor Anda: **${score}/${total}**
+        `;
+        resultsDiv.style.display = 'block';
+        resultsDiv.style.backgroundColor = score >= (total * 0.7) ? '#28a745' : '#ffc107';
+        resultsDiv.style.color = score >= (total * 0.7) ? 'white' : '#343a40';
         window.scrollTo({ top: 0, behavior: 'smooth' });
     }
-    
-    function showConfirmationModal(message, onConfirm) {
-        const existingModal = document.querySelector('.modal-overlay');
-        if (existingModal) existingModal.remove();
 
-        const modalOverlay = document.createElement('div');
-        modalOverlay.className = 'modal-overlay';
-        
-        modalOverlay.innerHTML = `
-        <div class="modal-content">
-            <p class="modal-message">${message}</p>
-            <div class="modal-buttons">
-                <button class="modal-cancel nav-btn">Batal</button>
-                <button class="modal-confirm nav-btn modal-btn confirm">Ya, Selesaikan</button>
-            </div>
-        </div>`;
-        document.body.appendChild(modalOverlay);
-
-        const closeModal = () => {
-            modalOverlay.classList.remove('active');
-            modalOverlay.addEventListener('transitionend', () => modalOverlay.remove(), { once: true });
-        };
-        modalOverlay.querySelector('.modal-confirm').onclick = () => { closeModal(); onConfirm(); };
-        modalOverlay.querySelector('.modal-cancel').onclick = closeModal;
-        
-        requestAnimationFrame(() => {
-            modalOverlay.classList.add('active');
-        });
-    }
-
-    function initQuiz() {
-        navGrid.innerHTML = randomizedBankSoal.map((_, index) => `<button class="nav-grid-btn" data-index="${index}">${index + 1}</button>`).join('');
-        document.querySelectorAll('.nav-grid-btn').forEach(btn => {
-            btn.addEventListener('click', () => tampilkanSoal(parseInt(btn.dataset.index)));
-        });
-        
-        btnPrev.addEventListener('click', () => { if (soalAktifIndex > 0) tampilkanSoal(soalAktifIndex - 1); });
-        btnNext.addEventListener('click', () => { if (soalAktifIndex < randomizedBankSoal.length - 1) tampilkanSoal(soalAktifIndex + 1); });
-        btnSelesai.addEventListener('click', selesaikanKuis);
-
-        togglePanelBtn.addEventListener('click', () => {
-            appContainer.classList.toggle('panel-closed');
-        });
-
-        tampilkanSoal(0);
-    }
-
-    // --- Initial Event Listener ---
-    startQuizBtn.addEventListener('click', startQuiz);
-});
+    // Initialize the quiz when the page loads
+    window.onload = generateQuiz;
 </script>
 
 </body>
 </html>
-
